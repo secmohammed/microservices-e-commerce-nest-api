@@ -5,9 +5,9 @@
         "host": "localhost",
         "database": "users-module",
         "entities": ["dist/**/*.entity.js"],
-        "synchronize": true,
+        "port": 27017,
         "useNewUrlParser": true,
-        "ha": true
+        "logging": true
     },
     {
         "name": "production",
