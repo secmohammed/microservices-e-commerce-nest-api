@@ -1,0 +1,19 @@
+[
+    {
+        "name": "default",
+        "type": "mongodb",
+        "host": "localhost",
+        "database": "products-module",
+        "entities": ["dist/**/*.entity.js"],
+        "synchronize": true,
+        "useNewUrlParser": true
+    },
+    {
+        "name": "production",
+        "type": "mongodb",
+        "host": "localhost",
+        "database": "users-module",
+        "entities": ["dist/**/*.entity.js"],
+        "synchronize": true
+    }
+]

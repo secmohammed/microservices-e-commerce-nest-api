@@ -1,10 +1,17 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
+import { Module } from "@nestjs/common";
+import { ProductsModule } from "./products/products.module";
+import { GraphQLModule } from "@nestjs/graphql";
+import { TypeOrmModule } from "@nestjs/typeorm";
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        TypeOrmModule.forRoot(),
+        GraphQLModule.forRoot({
+            installSubscriptionHandlers: true,
+            autoSchemaFile: "schema.gql",
+
+            context: ({ req }) => ({ headers: req.headers })
+        }),
+        ProductsModule
+    ]
 })
 export class AppModule {}
