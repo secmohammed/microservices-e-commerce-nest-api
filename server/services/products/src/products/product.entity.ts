@@ -1,18 +1,31 @@
-import { ObjectType, Field, ID } from "type-graphql";
-import { Column, Entity, BaseEntity, ObjectID, ObjectIdColumn } from "typeorm";
+import {
+    Column,
+    Entity,
+    BaseEntity,
+    ObjectID,
+    ObjectIdColumn,
+    CreateDateColumn,
+    UpdateDateColumn
+} from "typeorm";
 
 @Entity("products")
-@ObjectType()
 export class ProductEntity extends BaseEntity {
     @ObjectIdColumn()
-    @Field(() => ID)
     id: ObjectID;
 
-    @Field(() => String)
-    @Column("string", { unique: true })
-    name: string;
-
-    @Field(() => Number)
     @Column()
     price: number;
+    @ObjectIdColumn()
+    user_id: ObjectID;
+
+    @Column("string", { unique: true })
+    description: string;
+
+    @Column("string")
+    image: string;
+
+    @CreateDateColumn({ type: "timestamp", default: Date.now() })
+    created_at: Date;
+    @UpdateDateColumn({ type: "timestamp", default: Date.now() })
+    updated_at: Date;
 }

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ProductEntity } from "./product.entity";
 import { Repository, FindManyOptions } from "typeorm";
-interface Product {
+export interface Product {
     name: string;
     price: number;
 }
@@ -13,8 +13,7 @@ export class ProductService {
         @InjectRepository(ProductEntity)
         private readonly products: Repository<ProductEntity>
     ) {}
-    index(data: any): Array<Product> {
-        console.log(data);
+    get(data: any = undefined): Array<Product> {
         return [
             {
                 name: "Macbook pro 2016",
