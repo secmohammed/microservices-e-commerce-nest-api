@@ -1,0 +1,20 @@
+[
+    {
+        "name": "default",
+        "type": "mongodb",
+        "host": "localhost",
+        "database": "orders-module",
+        "entities": ["dist/**/*.entity.js"],
+        "port": 27017,
+        "useNewUrlParser": true,
+        "logging": true
+    },
+    {
+        "name": "production",
+        "type": "mongodb",
+        "host": "localhost",
+        "database": "users-module",
+        "entities": ["dist/**/*.entity.js"],
+        "synchronize": true
+    }
+]

@@ -1,0 +1,19 @@
+{
+    "name": "@commerce/shared",
+    "version": "0.0.1",
+    "description": "E-commerce using NestJS Microservices architecture.",
+    "author": "Mohammed Osama",
+    "license": "MIT",
+    "main": "./dist/index.js",
+    "typings": "./dist/index.d.ts",
+    "license": "MIT",
+    "scripts": {
+        "build": "rm -rf ./dist && tsc"
+    },
+    "devDependencies": {
+        "@types/node": "^12.7.1",
+        "tslint": "^5.18.0",
+        "tslint-config-prettier": "^1.18.0",
+        "typescript": "^3.5.3"
+    }
+}

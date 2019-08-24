@@ -1,7 +1,9 @@
 {
-  "name": "e-commerce-nest-api",
-  "version": "0.0.1",
-  "description": "E-commerce using NestJS Microservices architecture.",
-  "author": "Mohammed Osama",
-  "license": "MIT"
+    "private": true,
+    "workspaces": [
+        "services/*"
+    ],
+    "description": "E-commerce using NestJS Microservices architecture.",
+    "author": "Mohammed Osama",
+    "license": "MIT"
 }
