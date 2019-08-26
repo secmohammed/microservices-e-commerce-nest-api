@@ -1,6 +1,7 @@
 import { AddressDTO } from "./address.dto";
 
 export interface UserDTO {
+    id: string;
     name: string;
     readonly password: string;
     seller: boolean;

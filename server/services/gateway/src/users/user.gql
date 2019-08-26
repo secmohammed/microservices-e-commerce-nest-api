@@ -1,6 +1,19 @@
+scalar DateTime
+type Address {
+    address_1: String!
+    address_2: String!
+    city: String!
+    state: String!
+    country: String!
+    zip: Float!
+}
 type User {
-    id: String
-    username: String
+    id: String!
+    name: String!
+    password: String!
+    seller: Boolean!
+    address: Address!
+    created_at: DateTime!
 }
 
 type Query {
