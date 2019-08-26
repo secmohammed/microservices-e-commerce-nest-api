@@ -1,15 +1,15 @@
 import { Client, ClientProxy, Transport } from "@nestjs/microservices";
 import { Injectable } from "@nestjs/common";
+import { config } from "../config";
 
-import { User } from "../schemas/graphql";
 import { UserDTO } from "@commerce/shared";
 @Injectable()
 export class UserService {
   @Client({
     transport: Transport.TCP,
     options: {
-      host: process.env.USERS_HOST,
-      port: Number.parseInt(process.env.USERS_PORT)
+      host: config.USERS_HOST,
+      port: parseInt(config.USERS_PORT as string)
     }
   })
   private client: ClientProxy;

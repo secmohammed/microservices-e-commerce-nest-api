@@ -1,10 +1,11 @@
-import { GraphQLModule } from "@nestjs/graphql";
+import { APP_INTERCEPTOR, APP_FILTER } from "@nestjs/core";
 import { Module } from "@nestjs/common";
 
+import { GraphQLModule } from "@nestjs/graphql";
 import { join } from "path";
-import { LoggingInterceptor } from "./loggers/logging.interceptor";
-import { APP_INTERCEPTOR } from "@nestjs/core";
 
+import { GraphQLErrorFilter } from "./filters/graphql-exception.filter";
+import { LoggingInterceptor } from "./loggers/logging.interceptor";
 import { UsersModule } from "./users/users.module";
 
 @Module({
@@ -28,6 +29,10 @@ import { UsersModule } from "./users/users.module";
     UsersModule
   ],
   providers: [
+    {
+      provide: APP_FILTER,
+      useClass: GraphQLErrorFilter
+    },
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor

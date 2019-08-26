@@ -1,4 +1,3 @@
-import { Resolver, Query, Args, Mutation, Context } from "@nestjs/graphql";
 import { Controller } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { MessagePattern } from "@nestjs/microservices";
