@@ -6,10 +6,13 @@ import {
     ObjectIdColumn,
     OneToOne,
     CreateDateColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    BeforeInsert
 } from "typeorm";
 import { AddressEntity } from "./address.entity";
-
+import { sign } from "jsonwebtoken";
+import { config } from "@commerce/shared";
+import { hash } from "bcryptjs";
 @Entity("users")
 export class UserEntity extends BaseEntity {
     @ObjectIdColumn()
@@ -17,8 +20,10 @@ export class UserEntity extends BaseEntity {
     @Column()
     seller: boolean;
 
-    @Column("string", { unique: true })
+    @Column("string")
     name: string;
+    @Column("string", { unique: true })
+    email: string;
     @Column("string")
     password: string;
 
@@ -29,4 +34,29 @@ export class UserEntity extends BaseEntity {
 
     @OneToOne(() => AddressEntity, address => address.user)
     address: AddressEntity;
+    @BeforeInsert()
+    async hashPassword() {
+        this.password = await hash(this.password, 12);
+    }
+    private get token() {
+        const { id } = this;
+        return sign({ id }, config.JWT_TOKEN, {
+            expiresIn: config.JWT_TOKEN_EXPIRATION
+        });
+    }
+    toResponseObject(showToken: boolean = true) {
+        const { id, created_at, name, email, token, updated_at, seller } = this;
+        let responseObject: any = {
+            id,
+            name,
+            email,
+            created_at,
+            updated_at,
+            seller
+        };
+        if (showToken) {
+            responseObject.token = token;
+        }
+        return responseObject;
+    }
 }

@@ -1,7 +1,7 @@
 import { UserDTO } from "@commerce/shared";
 // import { UseGuards } from "@nestjs/common";
 
-import { Query, Resolver, Context } from "@nestjs/graphql";
+import { Query, Resolver } from "@nestjs/graphql";
 
 // import { AuthGuard } from "../middlewares/auth.guard";
 import { UserService } from "./user.service";

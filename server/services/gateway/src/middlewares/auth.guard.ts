@@ -6,7 +6,7 @@ import {
   HttpException
 } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
-
+import { config } from "@commerce/shared";
 import { verify } from "jsonwebtoken";
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -36,10 +36,7 @@ export class AuthGuard implements CanActivate {
     }
     const token = auth.split(" ")[1];
     try {
-      const decodedToken = await verify(
-        token,
-        process.env.SECRET_TOKEN || "blabla"
-      );
+      const decodedToken = await verify(token, config.JWT_TOKEN);
       return decodedToken;
     } catch (err) {
       const message = "Token error:" + err.message;

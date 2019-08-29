@@ -6,7 +6,6 @@
     "license": "MIT",
     "main": "./dist/index.js",
     "typings": "./dist/index.d.ts",
-    "license": "MIT",
     "scripts": {
         "build": "rm -rf ./dist && tsc"
     },
@@ -15,5 +14,8 @@
         "tslint": "^5.18.0",
         "tslint-config-prettier": "^1.18.0",
         "typescript": "^3.5.3"
+    },
+    "dependencies": {
+        "dotenv": "^8.1.0"
     }
 }
