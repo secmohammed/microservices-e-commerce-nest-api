@@ -34,8 +34,16 @@ export class UserService {
     const response = this.client.send<UserDTO>("register-user", data);
     return response.toPromise();
   }
-  async me(id: ObjectID) {
-    const response = this.client.send<UserDTO>("current-loggedin-user", id);
-    return response.toPromise();
+  me(id: ObjectID) {
+    return new Promise((resolve, reject) => {
+      this.client.send<UserDTO>("current-loggedin-user", id).subscribe(
+        response => {
+          resolve(response);
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
   }
 }

@@ -18,7 +18,7 @@ export class UserResolver {
     @Mutation()
     login(
         @Args("data") data: LoginUser
-    ): Promise<{ token: string; id: string }> {
+    ): Promise<{ token: string; id: string; name: string }> {
         return this.userService
             .login(data)
             .then(user => user)
@@ -34,6 +34,6 @@ export class UserResolver {
     @Query()
     @UseGuards(new AuthGuard())
     me(@Context("user") user: any) {
-        return this.userService.me(user);
+        return this.userService.me(user.id);
     }
 }

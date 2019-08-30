@@ -13,7 +13,7 @@ export class UserService {
         private readonly users: Repository<User>
     ) {}
     async me({ id }: any): Promise<UserDTO> {
-        const user = await this.users.findOneOrFail({ id });
+        const user = await this.users.findOneOrFail(id);
         return user.toResponseObject(false);
     }
     async get(page: number = 1): Promise<UserDTO[]> {

@@ -1,7 +1,9 @@
 import { Controller } from "@nestjs/common";
-import { UserService } from "./user.service";
-import { MessagePattern } from "@nestjs/microservices";
 import { LoginUser, RegisterUser } from "@commerce/shared";
+import { MessagePattern } from "@nestjs/microservices";
+import { ObjectID } from "typeorm";
+import { UserService } from "./user.service";
+
 @Controller("users")
 export class UserController {
     constructor(private readonly users: UserService) {}
@@ -16,5 +18,9 @@ export class UserController {
     @MessagePattern("register-user")
     register(data: RegisterUser) {
         return this.users.register(data);
+    }
+    @MessagePattern("current-loggedin-user")
+    me(id: ObjectID) {
+        return this.users.me({ id });
     }
 }
