@@ -15,7 +15,22 @@ type User {
     address: Address!
     created_at: DateTime!
 }
-
+input LoginUser {
+    email: String!
+    password: String!
+}
+input RegisterUser {
+    email: String!
+    password: String!
+    password_confirmation: String!
+    name: String!
+    seller: Boolean!
+}
 type Query {
     users: [User!]
+    me: User!
+}
+type Mutation {
+    login(data: LoginUser!): User!
+    register(data: RegisterUser!): User!
 }

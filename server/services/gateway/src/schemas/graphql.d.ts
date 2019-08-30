@@ -5,6 +5,19 @@
  */
 
 /* tslint:disable */
+export interface LoginUser {
+    email: string;
+    password: string;
+}
+
+export interface RegisterUser {
+    email: string;
+    password: string;
+    password_confirmation: string;
+    name: string;
+    seller: boolean;
+}
+
 export interface Address {
     address_1: string;
     address_2: string;
@@ -14,8 +27,14 @@ export interface Address {
     zip: number;
 }
 
+export interface IMutation {
+    login(data: LoginUser): User | Promise<User>;
+    register(data: RegisterUser): User | Promise<User>;
+}
+
 export interface IQuery {
     users(): User[] | Promise<User[]>;
+    me(): User | Promise<User>;
 }
 
 export interface User {
