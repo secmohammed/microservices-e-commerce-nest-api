@@ -3,6 +3,7 @@ import { UseGuards } from "@nestjs/common";
 import { Query, Resolver, Context, Mutation, Args } from "@nestjs/graphql";
 import { UserDTO, RegisterUser, LoginUser } from "@commerce/shared";
 import { AuthGuard } from "../middlewares/auth.guard";
+
 import { UserService } from "./user.service";
 
 @Resolver("User")
