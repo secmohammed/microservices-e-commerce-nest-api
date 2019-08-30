@@ -27,8 +27,14 @@ export interface Address {
     zip: number;
 }
 
+export interface AuthToken {
+    id: string;
+    name: string;
+    token: string;
+}
+
 export interface IMutation {
-    login(data: LoginUser): User | Promise<User>;
+    login(data: LoginUser): AuthToken | Promise<AuthToken>;
     register(data: RegisterUser): User | Promise<User>;
 }
 

@@ -1,9 +1,10 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { Injectable, HttpStatus, HttpException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { LoginUser, RegisterUser, UserDTO } from "@commerce/shared";
 import { Repository } from "typeorm";
 import { UserEntity as User } from "./user.entity";
 import { compareSync } from "bcryptjs";
+import { RpcException } from "@nestjs/microservices";
 
 @Injectable()
 export class UserService {
@@ -28,9 +29,8 @@ export class UserService {
             where: { email }
         });
         if (!compareSync(password, user.password)) {
-            throw new HttpException(
-                "Invalid Credentials",
-                HttpStatus.UNAUTHORIZED
+            throw new RpcException(
+                new NotFoundException("Invalid Credentials...")
             );
         }
         return user.toResponseObject();
@@ -43,9 +43,10 @@ export class UserService {
         name
     }: RegisterUser): Promise<UserDTO> {
         if (password != password_confirmation) {
-            throw new HttpException(
-                "password and password_confirmation must match each other",
-                HttpStatus.UNPROCESSABLE_ENTITY
+            throw new RpcException(
+                new NotFoundException(
+                    "Password and password_confirmation should match"
+                )
             );
         }
 
@@ -55,9 +56,10 @@ export class UserService {
             }
         });
         if (count) {
-            throw new HttpException(
-                "Email exists, pick up another one.",
-                HttpStatus.UNPROCESSABLE_ENTITY
+            throw new RpcException(
+                new NotFoundException(
+                    "email exists, please pick up another one."
+                )
             );
         }
         let user = await this.users.create({

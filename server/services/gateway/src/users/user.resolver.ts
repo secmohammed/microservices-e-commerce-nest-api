@@ -1,7 +1,7 @@
-import { UseGuards } from "@nestjs/common";
-
 import { Query, Resolver, Context, Mutation, Args } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common";
 import { UserDTO, RegisterUser, LoginUser } from "@commerce/shared";
+
 import { AuthGuard } from "../middlewares/auth.guard";
 import { UserService } from "./user.service";
 
@@ -15,8 +15,15 @@ export class UserResolver {
     }
 
     @Mutation()
-    login(@Args("data") data: LoginUser): Promise<UserDTO> {
-        return this.userService.login(data);
+    login(
+        @Args("data") data: LoginUser
+    ): Promise<{ token: string; id: string }> {
+        return this.userService
+            .login(data)
+            .then(user => user)
+            .catch(err => {
+                console.log(err);
+            });
     }
     @Mutation()
     register(@Args("data") data: RegisterUser): Promise<UserDTO> {

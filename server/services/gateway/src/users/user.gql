@@ -15,6 +15,11 @@ type User {
     address: Address!
     created_at: DateTime!
 }
+type AuthToken {
+    id: String!
+    name: String!
+    token: String!
+}
 input LoginUser {
     email: String!
     password: String!
@@ -31,6 +36,6 @@ type Query {
     me: User!
 }
 type Mutation {
-    login(data: LoginUser!): User!
+    login(data: LoginUser!): AuthToken!
     register(data: RegisterUser!): User!
 }
