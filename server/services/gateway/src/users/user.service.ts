@@ -27,7 +27,7 @@ export class UserService {
     return response.toPromise();
   }
   async me(id: ObjectID) {
-    const response = this.client.send<UserDTO>("curret-loggedin-user", id);
+    const response = this.client.send<UserDTO>("current-loggedin-user", id);
     return response.toPromise();
   }
 }

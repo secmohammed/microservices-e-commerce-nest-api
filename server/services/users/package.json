@@ -33,6 +33,7 @@
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
+    "@commerce/shared": "1.0.0",
     "typeorm": "^0.2.18"
   },
   "devDependencies": {
