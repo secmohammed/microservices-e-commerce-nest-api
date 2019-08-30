@@ -45,7 +45,16 @@ export class UserEntity extends BaseEntity {
         });
     }
     toResponseObject(showToken: boolean = true) {
-        const { id, created_at, name, email, token, updated_at, seller } = this;
+        const {
+            id,
+            created_at,
+            name,
+            email,
+            token,
+            updated_at,
+            seller,
+            address
+        } = this;
         let responseObject: any = {
             id,
             name,
@@ -54,6 +63,9 @@ export class UserEntity extends BaseEntity {
             updated_at,
             seller
         };
+        if (address) {
+            responseObject.address = address;
+        }
         if (showToken) {
             responseObject.token = token;
         }

@@ -1,30 +1,31 @@
 {
     "compilerOptions": {
         "target": "es6",
+        "module": "commonjs",
         "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
-        "outDir": "./dist",
-        "module": "esnext",
         "sourceMap": true,
+        "outDir": "./dist",
         "moduleResolution": "node",
-        "rootDir": "./src",
-        "forceConsistentCasingInFileNames": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
+        "declaration": false,
+
+        "composite": false,
+        "removeComments": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
-        "suppressImplicitAnyIndexErrors": true,
+        "strictFunctionTypes": true,
+        "noImplicitThis": true,
         "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "skipLibCheck": true,
-        "declaration": true
+        "baseUrl": ".",
+        "rootDir": "./src"
     },
-    "exclude": [
-        "node_modules",
-        "build",
-        "scripts",
-        "acceptance-tests",
-        "webpack",
-        "jest",
-        "src/setupTests.ts"
-    ],
-    "include": ["./src/**/*.ts"]
+    "exclude": ["node_modules"],
+    "include": ["./src/**/*.tsx", "./src/**/*.ts"]
 }

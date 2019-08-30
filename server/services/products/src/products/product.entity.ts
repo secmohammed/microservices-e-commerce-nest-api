@@ -19,6 +19,8 @@ export class ProductEntity extends BaseEntity {
     user_id: ObjectID;
 
     @Column("string", { unique: true })
+    title: string;
+    @Column("string")
     description: string;
 
     @Column("string")
@@ -28,4 +30,8 @@ export class ProductEntity extends BaseEntity {
     created_at: Date;
     @UpdateDateColumn({ type: "timestamp", default: Date.now() })
     updated_at: Date;
+
+    toResponseObject() {
+        return this;
+    }
 }

@@ -7,7 +7,7 @@ async function bootstrap() {
         transport: Transport.TCP,
         options: {
             host: process.env.PRODUCTS_HOST,
-            port: parseInt(process.env.PRODUCTS_PORT)
+            port: parseInt(process.env.PRODUCTS_PORT as string)
         }
     });
     await app.listen(() => console.log("products module is listening"));

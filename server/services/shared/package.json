@@ -1,6 +1,7 @@
 {
     "name": "@commerce/shared",
-    "version": "0.0.1",
+    "version": "1.0.0",
+    "private": true,
     "description": "E-commerce using NestJS Microservices architecture.",
     "author": "Mohammed Osama",
     "license": "MIT",
@@ -10,12 +11,16 @@
         "build": "rm -rf ./dist && tsc"
     },
     "devDependencies": {
+        "@types/dotenv": "^6.1.1",
         "@types/node": "^12.7.1",
         "tslint": "^5.18.0",
         "tslint-config-prettier": "^1.18.0",
         "typescript": "^3.5.3"
     },
     "dependencies": {
-        "dotenv": "^8.1.0"
+        "class-validator": "^0.10.0",
+        "dotenv": "^8.1.0",
+        "type-graphql": "^0.17.5",
+        "typeorm": "^0.2.18"
     }
 }

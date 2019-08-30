@@ -1,5 +1,6 @@
 {
-  "name": "@e-commerce/gateway",
+  "name": "@commerce/gateway",
+  "private": true,
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -19,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@commerce/shared": "0.0.1",
+    "@commerce/shared": "1.0.0",
     "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^6.0.0",
     "@nestjs/graphql": "^6.4.2",

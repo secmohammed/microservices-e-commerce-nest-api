@@ -1,5 +1,6 @@
 {
-  "name": "@e-commerce/products",
+  "name": "@commerce/products",
+  "private": true,
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -30,8 +31,7 @@
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
-    "typeorm": "^0.2.18",
-    "@commerce/shared": "0.0.1"
+    "typeorm": "^0.2.18"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",

@@ -1,12 +1,13 @@
-import { Resolver, Query, Args, Mutation, Context } from "@nestjs/graphql";
 import { Controller } from "@nestjs/common";
-import { ProductService, Product } from "./product.service";
 import { MessagePattern } from "@nestjs/microservices";
+
+import { ProductService } from "./product.service";
+import { ProductDTO } from "@commerce/shared";
 @Controller("products")
 export class ProductController {
     constructor(private readonly products: ProductService) {}
     @MessagePattern("products")
-    index(): Product[] {
+    index(): Promise<ProductDTO[]> {
         return this.products.get();
     }
 }

@@ -7,7 +7,7 @@ async function bootstrap() {
         transport: Transport.TCP,
         options: {
             host: process.env.USERS_HOST,
-            port: parseInt(process.env.USERS_PORT)
+            port: parseInt(process.env.USERS_PORT as string)
         }
     });
     await app.listen(() =>
