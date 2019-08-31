@@ -14,6 +14,11 @@ export class ProductResolver {
     products(): Promise<ProductDTO[]> {
         return this.productService.get();
     }
+    @Query()
+    async showProduct(@Args("id") id: string) {
+        return this.productService.show(id);
+    }
+
     @Mutation()
     @UseGuards(new AuthGuard(), new SellerGuard())
     async createProduct(

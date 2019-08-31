@@ -60,6 +60,7 @@ export interface Product {
 
 export interface IQuery {
     products(): Product[] | Promise<Product[]>;
+    showProduct(id: string): Product | Promise<Product>;
     users(): User[] | Promise<User[]>;
     me(): User | Promise<User>;
 }

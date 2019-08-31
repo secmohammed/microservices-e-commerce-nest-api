@@ -16,6 +16,7 @@ input CreateProduct {
 }
 type Query {
     products: [Product!]
+    showProduct(id: String!): Product!
 }
 type Mutation {
     createProduct(data: CreateProduct!): Product!

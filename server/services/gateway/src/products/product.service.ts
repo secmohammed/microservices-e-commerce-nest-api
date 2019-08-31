@@ -23,7 +23,27 @@ export class ProductService {
     }
   })
   private productClient: ClientProxy;
+  async show(id: string): Promise<ProductDTO> {
+    return new Promise((resolve, reject) => {
+      this.productClient.send<ProductDTO>("show_product", id).subscribe(
+        product => {
+          this.userClient
+            .send<UserDTO[]>("fetch-users-by-ids", product.user_id)
+            .subscribe(
+              ([user]) => {
+                product.user = user;
 
+                delete product.user_id;
+
+                resolve(product);
+              },
+              error => reject(error)
+            );
+        },
+        error => reject(error)
+      );
+    });
+  }
   async get(): Promise<ProductDTO[]> {
     return new Promise((resolve, reject) => {
       // get products through cache.

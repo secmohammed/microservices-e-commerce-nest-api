@@ -31,6 +31,9 @@ export class ProductService {
             new NotFoundException("You cannot update what you don't own...")
         );
     }
+    async show(id: string): Promise<ProductEntity> {
+        return this.products.findOneOrFail({ id });
+    }
     async destroy(id: string, user_id: string): Promise<ProductEntity> {
         const product = await this.products.findOneOrFail({ id });
         if (product.user_id === user_id) {

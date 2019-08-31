@@ -7,14 +7,17 @@ import { ProductService } from "./product.service";
 @Controller("products")
 export class ProductController {
     constructor(private readonly products: ProductService) {}
+
     @MessagePattern("products")
     index(data: any = undefined): Promise<ProductEntity[]> {
         return this.products.get(data);
     }
+
     @MessagePattern("create_product")
     store(data: any): Promise<ProductEntity> {
         return this.products.store(data);
     }
+
     @MessagePattern("update_product")
     update({
         id,
@@ -30,6 +33,12 @@ export class ProductController {
             user_id
         );
     }
+
+    @MessagePattern("show_product")
+    show(id: string): Promise<ProductEntity> {
+        return this.products.show(id);
+    }
+
     @MessagePattern("delete_product")
     destroy({ id, user_id }: { id: string; user_id: string }) {
         return this.products.destroy(id, user_id);
