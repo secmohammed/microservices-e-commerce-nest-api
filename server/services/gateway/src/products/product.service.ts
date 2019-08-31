@@ -66,7 +66,7 @@ export class ProductService {
       });
     });
   }
-  async store(data: CreateProduct, id: string) {
+  store(data: CreateProduct, id: string): Promise<ProductDTO> {
     // TODO: handle the failure create produc
     return new Promise((resolve, reject) => {
       this.productClient
@@ -78,8 +78,8 @@ export class ProductService {
           product => {
             this.userClient
               .send<UserDTO[]>("fetch-users-by-ids", [id])
-              .subscribe(users => {
-                product.user = users[0];
+              .subscribe(([user]) => {
+                product.user = user;
                 delete product.user_id;
                 redis.set(redisProductsKey, "");
                 resolve(product);
