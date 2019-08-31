@@ -81,7 +81,7 @@ export class ProductService {
               .subscribe(([user]) => {
                 product.user = user;
                 delete product.user_id;
-                redis.set(redisProductsKey, "");
+                redis.del(redisProductsKey);
                 resolve(product);
               });
           },
