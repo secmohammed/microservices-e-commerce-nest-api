@@ -3,14 +3,14 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { Module } from "@nestjs/common";
 
 import { join } from "path";
-
+import { config } from "@commerce/shared";
 import { GraphQLErrorFilter } from "./filters/graphql-exception.filter";
 import { LoggingInterceptor } from "./loggers/logging.interceptor";
 import { UsersModule } from "./users/users.module";
 import { ProductsModule } from "./products/products.module";
 @Module({
   imports: [
-    process.env.GRAPHQL_ENV === "production"
+    config.APP_ENV === "production"
       ? GraphQLModule.forRoot({
           typePaths: ["./**/*.gql"],
           context: ({ req }) => ({ headers: req.headers }),
