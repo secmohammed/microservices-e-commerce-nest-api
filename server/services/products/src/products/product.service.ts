@@ -11,4 +11,7 @@ export class ProductService {
     get(data: any = undefined): Promise<ProductEntity[]> {
         return this.products.find(data);
     }
+    store(data: any): Promise<ProductEntity> {
+        return this.products.save(data);
+    }
 }

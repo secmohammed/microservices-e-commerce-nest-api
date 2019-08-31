@@ -11,4 +11,8 @@ export class ProductController {
     index(data: any = undefined): Promise<ProductEntity[]> {
         return this.products.get(data);
     }
+    @MessagePattern("create_product")
+    store(data: any): Promise<ProductEntity> {
+        return this.products.store(data);
+    }
 }

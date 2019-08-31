@@ -8,6 +8,15 @@ type Product {
     price: Float!
     created_at: DateTime!
 }
+input CreateProduct {
+    title: String!
+    description: String!
+    image: String!
+    price: Float!
+}
 type Query {
     products: [Product!]
+}
+type Mutation {
+    createProduct(data: CreateProduct!): Product!
 }

@@ -5,6 +5,13 @@
  */
 
 /* tslint:disable */
+export interface CreateProduct {
+    title: string;
+    description: string;
+    image: string;
+    price: number;
+}
+
 export interface LoginUser {
     email: string;
     password: string;
@@ -34,6 +41,7 @@ export interface AuthToken {
 }
 
 export interface IMutation {
+    createProduct(data: CreateProduct): Product | Promise<Product>;
     login(data: LoginUser): AuthToken | Promise<AuthToken>;
     register(data: RegisterUser): User | Promise<User>;
 }

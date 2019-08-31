@@ -1,10 +1,10 @@
 import { Client, ClientProxy, Transport } from "@nestjs/microservices";
 import { Injectable } from "@nestjs/common";
-import { ObjectID } from "typeorm";
 import { UserDTO, ProductDTO } from "@commerce/shared";
-import { redis, redisProductsKey } from "../utils/redis";
-import { config } from "../config";
 
+import { config } from "../config";
+import { redis, redisProductsKey } from "../utils/redis";
+import { CreateProduct } from "@commerce/shared";
 @Injectable()
 export class ProductService {
   @Client({
@@ -47,7 +47,12 @@ export class ProductService {
                       delete product.user_id;
                       return product;
                     });
-                    redis.set(redisProductsKey, JSON.stringify(mappedProducts));
+                    redis.set(
+                      redisProductsKey,
+                      JSON.stringify(mappedProducts),
+                      "EX",
+                      60 * 60 * 30 // 30 mins until expiration
+                    );
                     resolve(mappedProducts);
                   },
                   error => reject(error)
@@ -59,6 +64,29 @@ export class ProductService {
         // return the parsed products from cache.
         resolve(JSON.parse(products));
       });
+    });
+  }
+  async store(data: CreateProduct, id: string) {
+    // TODO: handle the failure create produc
+    return new Promise((resolve, reject) => {
+      this.productClient
+        .send<ProductDTO>("create_product", {
+          ...data,
+          user_id: id
+        })
+        .subscribe(
+          product => {
+            this.userClient
+              .send<UserDTO[]>("fetch-users-by-ids", [id])
+              .subscribe(users => {
+                product.user = users[0];
+                delete product.user_id;
+                redis.set(redisProductsKey, "");
+                resolve(product);
+              });
+          },
+          error => reject(error)
+        );
     });
   }
 }
