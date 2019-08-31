@@ -31,4 +31,9 @@ export class ProductResolver {
     ) {
         return this.productService.update(data, id, user.id);
     }
+    @Mutation()
+    @UseGuards(new AuthGuard(), new SellerGuard())
+    async deleteProduct(@Context("user") user: any, @Args("id") id: string) {
+        return this.productService.destroy(id, user.id);
+    }
 }

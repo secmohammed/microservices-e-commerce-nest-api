@@ -43,6 +43,7 @@ export interface AuthToken {
 export interface IMutation {
     createProduct(data: CreateProduct): Product | Promise<Product>;
     updateProduct(data: CreateProduct, id: string): Product | Promise<Product>;
+    deleteProduct(id: string): Product | Promise<Product>;
     login(data: LoginUser): AuthToken | Promise<AuthToken>;
     register(data: RegisterUser): User | Promise<User>;
 }

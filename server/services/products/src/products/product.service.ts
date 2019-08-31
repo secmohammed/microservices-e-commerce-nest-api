@@ -17,11 +17,25 @@ export class ProductService {
     store(data: any): Promise<ProductEntity> {
         return this.products.save(data);
     }
-    async update(id: string, data: any, user_id): Promise<ProductEntity> {
+    async update(
+        id: string,
+        data: any,
+        user_id: string
+    ): Promise<ProductEntity> {
         const product = await this.products.findOneOrFail({ id });
         if (product.user_id === user_id) {
             await this.products.update({ id }, data);
             return this.products.findOneOrFail({ id });
+        }
+        throw new RpcException(
+            new NotFoundException("You cannot update what you don't own...")
+        );
+    }
+    async destroy(id: string, user_id: string): Promise<ProductEntity> {
+        const product = await this.products.findOneOrFail({ id });
+        if (product.user_id === user_id) {
+            await this.products.delete({ id });
+            return product;
         }
         throw new RpcException(
             new NotFoundException("You cannot update what you don't own...")

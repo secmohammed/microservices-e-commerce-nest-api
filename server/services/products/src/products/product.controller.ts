@@ -30,4 +30,8 @@ export class ProductController {
             user_id
         );
     }
+    @MessagePattern("delete_product")
+    destroy({ id, user_id }: { id: string; user_id: string }) {
+        return this.products.destroy(id, user_id);
+    }
 }
