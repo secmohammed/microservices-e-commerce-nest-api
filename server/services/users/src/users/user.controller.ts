@@ -23,4 +23,8 @@ export class UserController {
     me(id: ObjectID) {
         return this.users.me({ id });
     }
+    @MessagePattern("fetch-users-by-ids")
+    fetchUsersByIds(ids: Array<String>) {
+        return this.users.fetchUsersByIds(ids);
+    }
 }

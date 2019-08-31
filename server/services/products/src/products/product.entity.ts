@@ -30,8 +30,4 @@ export class ProductEntity extends BaseEntity {
     created_at: Date;
     @UpdateDateColumn({ type: "timestamp", default: Date.now() })
     updated_at: Date;
-
-    toResponseObject() {
-        return this;
-    }
 }

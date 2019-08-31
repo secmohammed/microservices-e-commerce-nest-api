@@ -10,6 +10,10 @@ async function bootstrap() {
             port: parseInt(process.env.PRODUCTS_PORT as string)
         }
     });
-    await app.listen(() => console.log("products module is listening"));
+    await app.listen(() =>
+        console.log(
+            `products module is listening on ${process.env.PRODUCTS_PORT}`
+        )
+    );
 }
 bootstrap();

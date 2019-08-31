@@ -38,7 +38,18 @@ export interface IMutation {
     register(data: RegisterUser): User | Promise<User>;
 }
 
+export interface Product {
+    id: string;
+    user: User;
+    title: string;
+    description: string;
+    image: string;
+    price: number;
+    created_at: DateTime;
+}
+
 export interface IQuery {
+    products(): Product[] | Promise<Product[]>;
     users(): User[] | Promise<User[]>;
     me(): User | Promise<User>;
 }

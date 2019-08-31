@@ -1,0 +1,13 @@
+scalar DateTime
+type Product {
+    id: String!
+    user: User!
+    title: String!
+    description: String!
+    image: String!
+    price: Float!
+    created_at: DateTime!
+}
+type Query {
+    products: [Product!]
+}

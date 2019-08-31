@@ -12,6 +12,10 @@ export class UserService {
         @InjectRepository(User)
         private readonly users: Repository<User>
     ) {}
+
+    fetchUsersByIds(ids: Array<String>): Promise<UserDTO[]> {
+        return this.users.findByIds(ids);
+    }
     async me({ id }: any): Promise<UserDTO> {
         const user = await this.users.findOneOrFail(id);
         return user.toResponseObject(false);

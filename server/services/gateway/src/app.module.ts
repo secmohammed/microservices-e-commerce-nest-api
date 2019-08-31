@@ -1,13 +1,13 @@
 import { APP_INTERCEPTOR, APP_FILTER } from "@nestjs/core";
+import { GraphQLModule } from "@nestjs/graphql";
 import { Module } from "@nestjs/common";
 
-import { GraphQLModule } from "@nestjs/graphql";
 import { join } from "path";
 
 import { GraphQLErrorFilter } from "./filters/graphql-exception.filter";
 import { LoggingInterceptor } from "./loggers/logging.interceptor";
 import { UsersModule } from "./users/users.module";
-
+import { ProductsModule } from "./products/products.module";
 @Module({
   imports: [
     process.env.GRAPHQL_ENV === "production"
@@ -26,7 +26,8 @@ import { UsersModule } from "./users/users.module";
           debug: true,
           installSubscriptionHandlers: true
         }),
-    UsersModule
+    UsersModule,
+    ProductsModule
   ],
   providers: [
     {
