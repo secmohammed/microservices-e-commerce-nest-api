@@ -1,19 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ProductsModule } from "./products/products.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
+const ormconfig = require("../ormconfig.json");
+
 @Module({
-    imports: [
-        TypeOrmModule.forRoot({
-            name: "default",
-            type: "mongodb",
-            host: "localhost",
-            database: "products-module",
-            entities: ["dist/**/*.entity.js"],
-            port: 27017,
-            useNewUrlParser: true,
-            logging: true
-        }),
-        ProductsModule
-    ]
+    imports: [TypeOrmModule.forRoot(ormconfig[0]), ProductsModule]
 })
 export class AppModule {}

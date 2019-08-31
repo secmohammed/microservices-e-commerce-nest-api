@@ -2,29 +2,28 @@ import {
     Column,
     Entity,
     BaseEntity,
-    ObjectIdColumn,
-    ObjectID,
     OneToOne,
-    JoinColumn
+    JoinColumn,
+    PrimaryGeneratedColumn
 } from "typeorm";
 import { UserEntity } from "./user.entity";
 
 @Entity("addresses")
 export class AddressEntity extends BaseEntity {
-    @ObjectIdColumn()
-    id: ObjectID;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
-    @Column("string")
+    @Column("text")
     address_1: string;
-    @Column("string", { nullable: true })
+    @Column("text", { nullable: true })
     address_2: string;
-    @Column("string")
+    @Column("text")
     city: string;
-    @Column("string")
+    @Column("text")
     state: string;
-    @Column("string")
+    @Column("text")
     country: string;
-    @Column("number")
+    @Column("integer")
     zip: number;
     @OneToOne(() => UserEntity, user => user.address)
     @JoinColumn()

@@ -1,19 +1,8 @@
 import { Module } from "@nestjs/common";
 import { UsersModule } from "./users/users.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
+const ormconfig = require("../ormconfig.json");
 @Module({
-    imports: [
-        TypeOrmModule.forRoot({
-            name: "default",
-            type: "mongodb",
-            host: "localhost",
-            database: "users-module",
-            entities: ["dist/**/*.entity.js"],
-            port: 27017,
-            useNewUrlParser: true,
-            logging: true
-        }),
-        UsersModule
-    ]
+    imports: [TypeOrmModule.forRoot(ormconfig[0]), UsersModule]
 })
 export class AppModule {}

@@ -2,8 +2,7 @@ import {
     Column,
     Entity,
     BaseEntity,
-    ObjectID,
-    ObjectIdColumn,
+    PrimaryGeneratedColumn,
     OneToOne,
     CreateDateColumn,
     UpdateDateColumn,
@@ -15,21 +14,21 @@ import { config } from "@commerce/shared";
 import { hash } from "bcryptjs";
 @Entity("users")
 export class UserEntity extends BaseEntity {
-    @ObjectIdColumn()
-    id: ObjectID;
-    @Column()
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
+    @Column({ type: "boolean" })
     seller: boolean;
 
-    @Column("string")
+    @Column("text")
     name: string;
-    @Column("string", { unique: true })
+    @Column("text", { unique: true })
     email: string;
-    @Column("string")
+    @Column("text")
     password: string;
 
-    @CreateDateColumn({ type: "timestamp", default: Date.now() })
+    @CreateDateColumn()
     created_at: Date;
-    @UpdateDateColumn({ type: "timestamp", default: Date.now() })
+    @UpdateDateColumn()
     updated_at: Date;
 
     @OneToOne(() => AddressEntity, address => address.user)

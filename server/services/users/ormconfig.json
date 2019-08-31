@@ -1,13 +1,15 @@
 [
     {
         "name": "default",
-        "type": "mongodb",
+        "type": "postgres",
         "host": "localhost",
+        "port": 5432,
+        "username": "mohammed",
+        "password": "root",
         "database": "users-module",
-        "entities": ["dist/**/*.entity.js"],
-        "port": 27017,
-        "useNewUrlParser": true,
-        "logging": true
+        "synchronize": true,
+        "logging": true,
+        "entities": ["dist/**/*.entity.js"]
     },
     {
         "name": "production",

@@ -11,6 +11,7 @@
         "target": "es6",
         "sourceMap": true,
         "outDir": "./dist",
+        "resolveJsonModule": true,
         "baseUrl": "./src"
     },
     "include": ["src/**/*"],

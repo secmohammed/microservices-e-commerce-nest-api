@@ -10,7 +10,6 @@ type Address {
 type User {
     id: String!
     name: String!
-    password: String!
     seller: Boolean!
     address: Address!
     created_at: DateTime!

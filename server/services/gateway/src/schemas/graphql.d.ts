@@ -57,7 +57,6 @@ export interface IQuery {
 export interface User {
     id: string;
     name: string;
-    password: string;
     seller: boolean;
     address: Address;
     created_at: DateTime;

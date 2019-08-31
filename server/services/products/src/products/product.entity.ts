@@ -2,32 +2,31 @@ import {
     Column,
     Entity,
     BaseEntity,
-    ObjectID,
-    ObjectIdColumn,
     CreateDateColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    PrimaryGeneratedColumn
 } from "typeorm";
 
 @Entity("products")
 export class ProductEntity extends BaseEntity {
-    @ObjectIdColumn()
-    id: ObjectID;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
-    @Column()
+    @Column("integer")
     price: number;
-    @ObjectIdColumn()
-    user_id: ObjectID;
+    @PrimaryGeneratedColumn("uuid")
+    user_id: string;
 
-    @Column("string", { unique: true })
+    @Column("text", { unique: true })
     title: string;
-    @Column("string")
+    @Column("text")
     description: string;
 
-    @Column("string")
+    @Column("text")
     image: string;
 
-    @CreateDateColumn({ type: "timestamp", default: Date.now() })
+    @CreateDateColumn()
     created_at: Date;
-    @UpdateDateColumn({ type: "timestamp", default: Date.now() })
+    @UpdateDateColumn()
     updated_at: Date;
 }
