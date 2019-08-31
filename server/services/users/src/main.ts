@@ -4,14 +4,11 @@ import { Transport } from "@nestjs/microservices";
 import { config } from "@commerce/shared";
 async function bootstrap() {
     const app = await NestFactory.createMicroservice(AppModule, {
-        transport: Transport.TCP,
+        transport: Transport.REDIS,
         options: {
-            host: config.USERS_HOST,
-            port: parseInt(config.USERS_PORT as string)
+            url: `redis://${config.REDIS_URL}:${config.REDIS_PORT}`
         }
     });
-    await app.listen(() =>
-        console.log(`users module is listening on ${config.USERS_PORT}`)
-    );
+    await app.listen(() => console.log(`users module is listening`));
 }
 bootstrap();
