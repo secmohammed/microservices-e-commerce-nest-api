@@ -4,28 +4,28 @@ import {
     Column,
     Entity,
     BaseEntity,
-    ObjectID,
-    ObjectIdColumn
+    PrimaryGeneratedColumn
 } from "typeorm";
 
 @Entity("orders")
 export class OrderEntity extends BaseEntity {
-    @ObjectIdColumn()
-    id: ObjectID;
-    @ObjectIdColumn()
-    user_id: ObjectID;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
-    @Column("number", { default: 0 })
+    @PrimaryGeneratedColumn("uuid")
+    user_id: string;
+
+    @Column("integer", { default: 0 })
     totalPrice: number;
 
     @Column("simple-json", { array: true })
     products: {
-        id: ObjectID;
+        id: string;
         quantity: number;
     }[];
 
-    @CreateDateColumn({ type: "timestamp", default: Date.now() })
+    @CreateDateColumn()
     created_at: Date;
-    @UpdateDateColumn({ type: "timestamp", default: Date.now() })
+    @UpdateDateColumn()
     updated_at: Date;
 }
