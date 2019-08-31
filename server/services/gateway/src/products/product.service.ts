@@ -2,7 +2,7 @@ import { Client, ClientProxy, Transport } from "@nestjs/microservices";
 import { Injectable } from "@nestjs/common";
 import { UserDTO, ProductDTO } from "@commerce/shared";
 
-import { config } from "../config";
+import { config } from "@commerce/shared";
 import { redis, redisProductsKey } from "../utils/redis";
 import { CreateProduct } from "@commerce/shared";
 @Injectable()

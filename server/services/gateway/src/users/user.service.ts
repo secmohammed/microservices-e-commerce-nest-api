@@ -2,7 +2,7 @@ import { Client, ClientProxy, Transport } from "@nestjs/microservices";
 import { Injectable } from "@nestjs/common";
 import { UserDTO, RegisterUser, LoginUser } from "@commerce/shared";
 import { ObjectID } from "typeorm";
-import { config } from "../config";
+import { config } from "@commerce/shared";
 
 @Injectable()
 export class UserService {
