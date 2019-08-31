@@ -39,8 +39,8 @@ export class UserEntity extends BaseEntity {
         this.password = await hash(this.password, 12);
     }
     private get token() {
-        const { id } = this;
-        return sign({ id }, config.JWT_TOKEN, {
+        const { id, seller } = this;
+        return sign({ id, seller }, config.JWT_TOKEN, {
             expiresIn: config.JWT_TOKEN_EXPIRATION
         });
     }
