@@ -1,7 +1,7 @@
-import { CreateProduct, ProductDTO } from "@commerce/shared";
+import { ProductDTO } from "@commerce/shared";
 import { Query, Resolver, Context, Mutation, Args } from "@nestjs/graphql";
 import { UseGuards } from "@nestjs/common";
-
+import { CreateProduct } from "./create-product.validation";
 import { AuthGuard } from "../middlewares/auth.guard";
 import { ProductService } from "./product.service";
 import { SellerGuard } from "../middlewares/seller.guard";

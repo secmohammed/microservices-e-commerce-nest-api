@@ -3,13 +3,15 @@ import {
     MinLength,
     MaxLength,
     IsUrl,
+    Min,
+    Max,
     IsInt
 } from "class-validator";
 import { InputType, Field } from "type-graphql";
 @InputType()
 export class CreateProduct {
-    @MinLength(1)
-    @MaxLength(4)
+    @Min(1)
+    @Max(999)
     @IsNotEmpty()
     @IsInt()
     @Field()
