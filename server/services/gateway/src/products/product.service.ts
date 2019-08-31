@@ -89,4 +89,31 @@ export class ProductService {
         );
     });
   }
+  update(
+    data: CreateProduct,
+    productId: string,
+    id: string
+  ): Promise<ProductDTO> {
+    return new Promise((resolve, reject) => {
+      this.productClient
+        .send<ProductDTO>("update_product", {
+          ...data,
+          id: productId,
+          user_id: id
+        })
+        .subscribe(
+          product => {
+            this.userClient
+              .send<UserDTO[]>("fetch-users-by-ids", [id])
+              .subscribe(([user]) => {
+                product.user = user;
+                delete product.user_id;
+                redis.del(redisProductsKey);
+                resolve(product);
+              });
+          },
+          error => reject(error)
+        );
+    });
+  }
 }

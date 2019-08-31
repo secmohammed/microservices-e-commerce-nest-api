@@ -15,4 +15,19 @@ export class ProductController {
     store(data: any): Promise<ProductEntity> {
         return this.products.store(data);
     }
+    @MessagePattern("update_product")
+    update({
+        id,
+        title,
+        description,
+        image,
+        price,
+        user_id
+    }: any): Promise<ProductEntity> {
+        return this.products.update(
+            id,
+            { title, description, image, price },
+            user_id
+        );
+    }
 }

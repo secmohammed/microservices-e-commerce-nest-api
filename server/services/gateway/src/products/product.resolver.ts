@@ -22,4 +22,13 @@ export class ProductResolver {
     ) {
         return this.productService.store(data, user.id);
     }
+    @Mutation()
+    @UseGuards(new AuthGuard(), new SellerGuard())
+    async updateProduct(
+        @Args("data") data: CreateProduct,
+        @Context("user") user: any,
+        @Args("id") id: string
+    ) {
+        return this.productService.update(data, id, user.id);
+    }
 }
