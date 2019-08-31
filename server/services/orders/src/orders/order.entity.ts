@@ -18,7 +18,7 @@ export class OrderEntity extends BaseEntity {
     @Column("integer", { default: 0 })
     totalPrice: number;
 
-    @Column("simple-json", { array: true })
+    @Column({ type: "jsonb" })
     products: {
         id: string;
         quantity: number;

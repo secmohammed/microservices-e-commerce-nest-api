@@ -1,0 +1,14 @@
+scalar DateTime
+type ProductWithQuantity {
+    product: Product!
+    quantity: Float!
+}
+type Order {
+    id: String!
+    user: User!
+    totalPrice: Float!
+    products: [ProductWithQuantity!]
+}
+type Query {
+    orders: [Order!]
+}

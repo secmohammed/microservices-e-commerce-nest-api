@@ -8,26 +8,17 @@ import { CreateProduct } from "@commerce/shared";
 @Injectable()
 export class ProductService {
   @Client({
-    transport: Transport.TCP,
+    transport: Transport.REDIS,
     options: {
-      host: config.USERS_HOST,
-      port: parseInt(config.USERS_PORT as string)
+      url: `redis://${config.REDIS_URL}:${config.REDIS_PORT}`
     }
   })
-  private userClient: ClientProxy;
-  @Client({
-    transport: Transport.TCP,
-    options: {
-      host: config.PRODUCTS_HOST,
-      port: parseInt(config.PRODUCTS_PORT as string)
-    }
-  })
-  private productClient: ClientProxy;
+  private client: ClientProxy;
   async show(id: string): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
-      this.productClient.send<ProductDTO>("show_product", id).subscribe(
+      this.client.send<ProductDTO>("show_product", id).subscribe(
         product => {
-          this.userClient
+          this.client
             .send<UserDTO[]>("fetch-users-by-ids", product.user_id)
             .subscribe(
               ([user]) => {
@@ -50,11 +41,11 @@ export class ProductService {
       redis.get(redisProductsKey, (err, products) => {
         // if products don't persist, retrieve them, and store in redis.
         if (!products) {
-          this.productClient.send<ProductDTO[]>("products", []).subscribe(
+          this.client.send<ProductDTO[]>("products", []).subscribe(
             products => {
               // get users by ids in products.
               const userIds = products.map(product => product.user_id);
-              this.userClient
+              this.client
                 .send<UserDTO[]>("fetch-users-by-ids", userIds)
                 .subscribe(
                   users => {
@@ -89,14 +80,14 @@ export class ProductService {
   store(data: CreateProduct, id: string): Promise<ProductDTO> {
     // TODO: handle the failure create produc
     return new Promise((resolve, reject) => {
-      this.productClient
+      this.client
         .send<ProductDTO>("create_product", {
           ...data,
           user_id: id
         })
         .subscribe(
           product => {
-            this.userClient
+            this.client
               .send<UserDTO[]>("fetch-users-by-ids", [id])
               .subscribe(([user]) => {
                 product.user = user;
@@ -115,7 +106,7 @@ export class ProductService {
     id: string
   ): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
-      this.productClient
+      this.client
         .send<ProductDTO>("update_product", {
           ...data,
           id: productId,
@@ -123,7 +114,7 @@ export class ProductService {
         })
         .subscribe(
           product => {
-            this.userClient
+            this.client
               .send<UserDTO[]>("fetch-users-by-ids", [id])
               .subscribe(([user]) => {
                 product.user = user;
@@ -138,14 +129,14 @@ export class ProductService {
   }
   destroy(productId: string, id: string) {
     return new Promise((resolve, reject) => {
-      this.productClient
+      this.client
         .send<ProductDTO>("delete_product", {
           id: productId,
           user_id: id
         })
         .subscribe(
           product => {
-            this.userClient
+            this.client
               .send<UserDTO[]>("fetch-users-by-ids", [id])
               .subscribe(([user]) => {
                 product.user = user;

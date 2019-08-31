@@ -48,6 +48,13 @@ export interface IMutation {
     register(data: RegisterUser): User | Promise<User>;
 }
 
+export interface Order {
+    id: string;
+    user: User;
+    totalPrice: number;
+    products?: ProductWithQuantity[];
+}
+
 export interface Product {
     id: string;
     user: User;
@@ -58,7 +65,13 @@ export interface Product {
     created_at: DateTime;
 }
 
+export interface ProductWithQuantity {
+    product: Product;
+    quantity: number;
+}
+
 export interface IQuery {
+    orders(): Order[] | Promise<Order[]>;
     products(): Product[] | Promise<Product[]>;
     showProduct(id: string): Product | Promise<Product>;
     users(): User[] | Promise<User[]>;

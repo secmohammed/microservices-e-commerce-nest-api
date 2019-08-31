@@ -7,10 +7,9 @@ import { config } from "@commerce/shared";
 @Injectable()
 export class UserService {
   @Client({
-    transport: Transport.TCP,
+    transport: Transport.REDIS,
     options: {
-      host: config.USERS_HOST,
-      port: parseInt(config.USERS_PORT as string)
+      url: `redis://${config.REDIS_URL}:${config.REDIS_PORT}`
     }
   })
   private client: ClientProxy;
