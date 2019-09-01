@@ -14,7 +14,7 @@ export class OrderService {
     }
   })
   private client: ClientProxy;
-  store(products: any, user_id) {
+  store(products: any, user_id): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
       this.client
         .send("fetch-products-by-ids", products.map(product => product.id)) // fetch the products inside the servie here to pass them to orders.
@@ -36,10 +36,16 @@ export class OrderService {
             })
             .subscribe(
               order => {
-                // fire an event to reduce the quantity of the products.
                 this.client
-                  .emit("order_created", products)
-                  .subscribe(() => {}, () => {}, () => resolve(order)); // resolve on completion
+                  .send("fetch-users-by-ids", [user_id])
+                  .subscribe(([user]) => {
+                    order.user = user;
+                    delete order.user_id;
+                    // fire an event to reduce the quantity of the products.
+                    this.client
+                      .emit("order_created", products)
+                      .subscribe(() => {}, () => {}, () => resolve(order)); // resolve on completion
+                  });
               },
               error => reject(error)
             );

@@ -37,7 +37,7 @@ export class OrderResolver {
                             const p = fetchedProducts.find(
                                 p => p.id === product.id
                             );
-                            return p.quantity > product.quantity;
+                            return p.quantity >= product.quantity;
                         });
                         // there is something wrong with the quantity of passed products.
                         if (filteredProducts.length != products.length) {
