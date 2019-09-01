@@ -14,6 +14,12 @@ export class ProductService {
     get(data: any = undefined): Promise<ProductEntity[]> {
         return this.products.find(data);
     }
+    fetchProductsByIds(ids: Array<string>) {
+        return this.products
+            .createQueryBuilder("products")
+            .where(`products.id IN (:...ids)`, { ids })
+            .getMany();
+    }
     store(data: any): Promise<ProductEntity> {
         return this.products.save(data);
     }
@@ -43,5 +49,14 @@ export class ProductService {
         throw new RpcException(
             new NotFoundException("You cannot update what you don't own...")
         );
+    }
+    async decrementProductsStock(products) {
+        products.forEach(product => {
+            this.products.decrement(
+                { id: product.id },
+                "quantity",
+                product.quantity
+            );
+        });
     }
 }

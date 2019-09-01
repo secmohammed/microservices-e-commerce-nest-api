@@ -16,13 +16,13 @@ export class OrderEntity extends BaseEntity {
     user_id: string;
 
     @Column("integer", { default: 0 })
-    totalPrice: number;
+    total_price: number;
 
-    @Column({ type: "jsonb" })
+    @Column({ type: "simple-json" })
     products: {
         id: string;
         quantity: number;
-    }[];
+    };
 
     @CreateDateColumn()
     created_at: Date;

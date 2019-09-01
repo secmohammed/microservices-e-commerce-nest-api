@@ -8,4 +8,8 @@ export class OrderController {
     index() {
         return this.orders.get();
     }
+    @MessagePattern("create_order")
+    store(data: any) {
+        return this.orders.create(data);
+    }
 }

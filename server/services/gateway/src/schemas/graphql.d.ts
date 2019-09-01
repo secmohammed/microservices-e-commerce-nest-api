@@ -17,6 +17,11 @@ export interface LoginUser {
     password: string;
 }
 
+export interface ProductInput {
+    id: string;
+    quantity: number;
+}
+
 export interface RegisterUser {
     email: string;
     password: string;
@@ -41,6 +46,7 @@ export interface AuthToken {
 }
 
 export interface IMutation {
+    createOrder(products: ProductInput[]): Order | Promise<Order>;
     createProduct(data: CreateProduct): Product | Promise<Product>;
     updateProduct(data: CreateProduct, id: string): Product | Promise<Product>;
     deleteProduct(id: string): Product | Promise<Product>;
@@ -51,8 +57,8 @@ export interface IMutation {
 export interface Order {
     id: string;
     user: User;
-    totalPrice: number;
-    products?: ProductWithQuantity[];
+    total_price: number;
+    products: ProductWithQuantity[];
 }
 
 export interface Product {
@@ -72,6 +78,7 @@ export interface ProductWithQuantity {
 
 export interface IQuery {
     orders(): Order[] | Promise<Order[]>;
+    showOrder(id: string): Order | Promise<Order>;
     products(): Product[] | Promise<Product[]>;
     showProduct(id: string): Product | Promise<Product>;
     users(): User[] | Promise<User[]>;

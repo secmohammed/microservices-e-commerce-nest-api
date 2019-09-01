@@ -16,7 +16,8 @@ export class ProductEntity extends BaseEntity {
     price: number;
     @PrimaryGeneratedColumn("uuid")
     user_id: string;
-
+    @Column("integer", { default: 1 })
+    quantity: number;
     @Column("text", { unique: true })
     title: string;
     @Column("text")

@@ -23,7 +23,7 @@ export class UserEntity extends BaseEntity {
     name: string;
     @Column("text", { unique: true })
     email: string;
-    @Column("text")
+    @Column("text", { select: false })
     password: string;
 
     @CreateDateColumn()

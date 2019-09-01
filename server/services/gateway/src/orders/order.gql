@@ -3,12 +3,20 @@ type ProductWithQuantity {
     product: Product!
     quantity: Float!
 }
+input ProductInput {
+    id: String!
+    quantity: Float!
+}
 type Order {
     id: String!
     user: User!
-    totalPrice: Float!
-    products: [ProductWithQuantity!]
+    total_price: Float!
+    products: [ProductWithQuantity!]!
 }
 type Query {
     orders: [Order!]
+    showOrder(id: String!): Order
+}
+type Mutation {
+    createOrder(products: [ProductInput!]!): Order!
 }

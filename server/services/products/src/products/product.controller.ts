@@ -1,5 +1,5 @@
 import { Controller } from "@nestjs/common";
-import { MessagePattern } from "@nestjs/microservices";
+import { MessagePattern, EventPattern } from "@nestjs/microservices";
 
 import { ProductEntity } from "./product.entity";
 import { ProductService } from "./product.service";
@@ -37,6 +37,16 @@ export class ProductController {
     @MessagePattern("show_product")
     show(id: string): Promise<ProductEntity> {
         return this.products.show(id);
+    }
+    @MessagePattern("fetch-products-by-ids")
+    fetchProductsByIds(ids: Array<string>) {
+        return this.products.fetchProductsByIds(ids);
+    }
+    @EventPattern("order_created")
+    async handleOrderCreated(
+        products: Array<{ id: string; quantity: number }>
+    ) {
+        this.products.decrementProductsStock(products);
     }
 
     @MessagePattern("delete_product")
