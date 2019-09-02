@@ -16,23 +16,9 @@ export class ProductService {
   private client: ClientProxy;
   async show(id: string): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
-      this.client.send<ProductDTO>("show_product", id).subscribe(
-        product => {
-          this.client
-            .send<UserDTO[]>("fetch-users-by-ids", product.user_id)
-            .subscribe(
-              ([user]) => {
-                product.user = user;
-
-                delete product.user_id;
-
-                resolve(product);
-              },
-              error => reject(error)
-            );
-        },
-        error => reject(error)
-      );
+      this.client
+        .send<ProductDTO>("show_product", id)
+        .subscribe(product => resolve(product), error => reject(error));
     });
   }
   async get(): Promise<ProductDTO[]> {
@@ -87,14 +73,8 @@ export class ProductService {
         })
         .subscribe(
           product => {
-            this.client
-              .send<UserDTO[]>("fetch-users-by-ids", [id])
-              .subscribe(([user]) => {
-                product.user = user;
-                delete product.user_id;
-                redis.del(redisProductsKey);
-                resolve(product);
-              });
+            redis.del(redisProductsKey);
+            return resolve(product);
           },
           error => reject(error)
         );
@@ -114,14 +94,8 @@ export class ProductService {
         })
         .subscribe(
           product => {
-            this.client
-              .send<UserDTO[]>("fetch-users-by-ids", [id])
-              .subscribe(([user]) => {
-                product.user = user;
-                delete product.user_id;
-                redis.del(redisProductsKey);
-                resolve(product);
-              });
+            redis.del(redisProductsKey);
+            return resolve(product);
           },
           error => reject(error)
         );
@@ -136,14 +110,8 @@ export class ProductService {
         })
         .subscribe(
           product => {
-            this.client
-              .send<UserDTO[]>("fetch-users-by-ids", [id])
-              .subscribe(([user]) => {
-                product.user = user;
-                delete product.user_id;
-                redis.del(redisProductsKey);
-                resolve(product);
-              });
+            redis.del(redisProductsKey);
+            return resolve(product);
           },
           error => reject(error)
         );

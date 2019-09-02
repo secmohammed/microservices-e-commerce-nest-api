@@ -1,15 +1,41 @@
 import { ProductDTO } from "@commerce/shared";
-import { Query, Resolver, Context, Mutation, Args } from "@nestjs/graphql";
+import {
+    Query,
+    Resolver,
+    Context,
+    Mutation,
+    Args,
+    Parent,
+    ResolveProperty
+} from "@nestjs/graphql";
 import { UseGuards } from "@nestjs/common";
 import { CreateProduct } from "./create-product.validation";
 import { AuthGuard } from "../middlewares/auth.guard";
 import { ProductService } from "./product.service";
 import { SellerGuard } from "../middlewares/seller.guard";
-
+import { Client, ClientProxy, Transport } from "@nestjs/microservices";
+import { config, UserDTO } from "@commerce/shared";
 @Resolver("Product")
 export class ProductResolver {
-    constructor(private readonly productService: ProductService) {}
+    @Client({
+        transport: Transport.REDIS,
+        options: {
+            url: `redis://${config.REDIS_URL}:${config.REDIS_PORT}`
+        }
+    })
+    private client: ClientProxy;
 
+    constructor(private readonly productService: ProductService) {}
+    @ResolveProperty("user")
+    async user(@Parent() product): Promise<UserDTO> {
+        if (product.user) {
+            return product.user;
+        }
+        const user = await this.client
+            .send("fetch-user-by-id", product.user_id)
+            .toPromise();
+        return user;
+    }
     @Query()
     products(): Promise<ProductDTO[]> {
         return this.productService.get();
