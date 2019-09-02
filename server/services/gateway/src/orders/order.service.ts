@@ -1,6 +1,6 @@
 import { Client, ClientProxy, Transport } from "@nestjs/microservices";
 import { Injectable } from "@nestjs/common";
-import { UserDTO, ProductDTO } from "@commerce/shared";
+import { UserDTO, ProductDTO, OrderDTO } from "@commerce/shared";
 
 import { config } from "@commerce/shared";
 import { redis, redisProductsKey } from "../utils/redis";
@@ -14,6 +14,14 @@ export class OrderService {
     }
   })
   private client: ClientProxy;
+  indexOrdersByUser(user_id: string): Promise<OrderDTO[]> {
+    return new Promise((resolve, reject) => {
+      this.client.send("index-orders", user_id).subscribe(orders => {
+        // prepare the product, user, user address
+        return resolve(orders);
+      });
+    });
+  }
   store(products: any, user_id): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
       this.client
@@ -36,16 +44,10 @@ export class OrderService {
             })
             .subscribe(
               order => {
+                // fire an event to reduce the quantity of the products.
                 this.client
-                  .send("fetch-users-by-ids", [user_id])
-                  .subscribe(([user]) => {
-                    order.user = user;
-                    delete order.user_id;
-                    // fire an event to reduce the quantity of the products.
-                    this.client
-                      .emit("order_created", products)
-                      .subscribe(() => {}, () => {}, () => resolve(order)); // resolve on completion
-                  });
+                  .emit("order_created", products)
+                  .subscribe(() => {}, () => {}, () => resolve(order)); // resolve on completion
               },
               error => reject(error)
             );

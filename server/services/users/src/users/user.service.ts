@@ -12,12 +12,16 @@ export class UserService {
         @InjectRepository(User)
         private readonly users: Repository<User>
     ) {}
-
+    findById(id: string) {
+        return this.users.findOneOrFail(id);
+    }
     fetchUsersByIds(ids: Array<String>): Promise<UserDTO[]> {
         return this.users.findByIds(ids);
     }
     async me({ id }: any): Promise<UserDTO> {
-        const user = await this.users.findOneOrFail(id);
+        const user = await this.users.findOneOrFail(id, {
+            relations: ["address"]
+        });
         return user.toResponseObject(false);
     }
     async get(page: number = 1): Promise<UserDTO[]> {

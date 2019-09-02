@@ -10,8 +10,8 @@ export class OrderService {
         @InjectRepository(Order)
         private readonly orders: Repository<Order>
     ) {}
-    async get(): Promise<OrderDTO> {
-        return;
+    async get(user_id: string): Promise<Order[]> {
+        return this.orders.find({ user_id });
     }
     async create({ products, user_id }): Promise<Order> {
         const INITIAL_VALUE = 0;

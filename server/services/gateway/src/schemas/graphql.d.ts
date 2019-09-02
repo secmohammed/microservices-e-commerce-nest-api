@@ -73,7 +73,7 @@ export interface Product {
 
 export interface ProductWithQuantity {
     product: Product;
-    quantity: number;
+    quantity_ordered: number;
 }
 
 export interface IQuery {
@@ -89,7 +89,7 @@ export interface User {
     id: string;
     name: string;
     seller: boolean;
-    address: Address;
+    address?: Address;
     created_at: DateTime;
 }
 

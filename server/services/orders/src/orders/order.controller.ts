@@ -4,9 +4,9 @@ import { MessagePattern } from "@nestjs/microservices";
 @Controller("orders")
 export class OrderController {
     constructor(private readonly orders: OrderService) {}
-    @MessagePattern("orders")
-    index() {
-        return this.orders.get();
+    @MessagePattern("index-orders")
+    index(user_id: string) {
+        return this.orders.get(user_id);
     }
     @MessagePattern("create_order")
     store(data: any) {

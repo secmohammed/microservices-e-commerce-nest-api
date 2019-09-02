@@ -1,7 +1,7 @@
 scalar DateTime
 type ProductWithQuantity {
     product: Product!
-    quantity: Float!
+    quantity_ordered: Float!
 }
 input ProductInput {
     id: String!
@@ -14,7 +14,7 @@ type Order {
     products: [ProductWithQuantity!]!
 }
 type Query {
-    orders: [Order!]
+    orders: [Order!]!
     showOrder(id: String!): Order
 }
 type Mutation {

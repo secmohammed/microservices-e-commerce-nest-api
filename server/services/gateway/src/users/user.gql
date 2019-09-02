@@ -11,7 +11,7 @@ type User {
     id: String!
     name: String!
     seller: Boolean!
-    address: Address!
+    address: Address
     created_at: DateTime!
 }
 type AuthToken {

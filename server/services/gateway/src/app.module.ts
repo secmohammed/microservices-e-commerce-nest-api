@@ -6,7 +6,7 @@ import { config } from "@commerce/shared";
 import { join } from "path";
 
 import { GraphQLErrorFilter } from "./filters/graphql-exception.filter";
-import { LoggingInterceptor } from "./loggers/logging.interceptor";
+import { LoggingInterceptor } from "./interceptors/logging.interceptor";
 import { OrdersModule } from "./orders/orders.module";
 import { ProductsModule } from "./products/products.module";
 import { UsersModule } from "./users/users.module";
