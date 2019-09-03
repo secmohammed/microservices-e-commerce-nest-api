@@ -3,10 +3,14 @@ type ProductWithQuantity {
     product: Product!
     quantity_ordered: Float!
 }
-input ProductInput {
+input UUID {
     id: String!
-    quantity: Float!
 }
+input ProductInput {
+    quantity: Float!
+    id: String!
+}
+
 type Order {
     id: String!
     user: User!
@@ -19,5 +23,5 @@ type Query {
 }
 type Mutation {
     createOrder(products: [ProductInput!]!): Order!
-    deleteOrder(order: String!): Order!
+    deleteOrder(order: UUID!): Order!
 }

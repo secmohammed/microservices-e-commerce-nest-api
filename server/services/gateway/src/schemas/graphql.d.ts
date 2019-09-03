@@ -18,8 +18,8 @@ export interface LoginUser {
 }
 
 export interface ProductInput {
-    id: string;
     quantity: number;
+    id: string;
 }
 
 export interface RegisterUser {
@@ -28,6 +28,10 @@ export interface RegisterUser {
     password_confirmation: string;
     name: string;
     seller: boolean;
+}
+
+export interface UUID {
+    id: string;
 }
 
 export interface Address {
@@ -47,7 +51,7 @@ export interface AuthToken {
 
 export interface IMutation {
     createOrder(products: ProductInput[]): Order | Promise<Order>;
-    deleteOrder(order: string): Order | Promise<Order>;
+    deleteOrder(order: UUID): Order | Promise<Order>;
     createProduct(data: CreateProduct): Product | Promise<Product>;
     updateProduct(data: CreateProduct, id: string): Product | Promise<Product>;
     deleteProduct(id: string): Product | Promise<Product>;

@@ -10,10 +10,11 @@ import {
 } from "@nestjs/graphql";
 import { UseGuards } from "@nestjs/common";
 import { config, ProductDTO, OrderDTO, UserDTO } from "@commerce/shared";
+
 import { AuthGuard } from "../middlewares/auth.guard";
 import { CreateOrder } from "./create-order.validation";
-import { IMutation } from "../schemas/graphql.d";
 import { OrderService } from "./order.service";
+import { UUID } from "../shared/validation/uuid.validation";
 
 @Resolver("Order")
 export class OrderResolver {
@@ -76,7 +77,7 @@ export class OrderResolver {
     }
     @Mutation()
     @UseGuards(new AuthGuard())
-    deleteOrder(@Args("order") id: string, @Context("user") user: any) {
+    deleteOrder(@Args("order") { id }: UUID, @Context("user") user: any) {
         return this.orderService.destroyUserOrder(id, user.id);
     }
     @Mutation()

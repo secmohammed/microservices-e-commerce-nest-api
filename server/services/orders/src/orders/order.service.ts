@@ -20,15 +20,15 @@ export class OrderService {
                 accumulator + product.ordered_quantity * product.price,
             INITIAL_VALUE
         );
+        const databaseProducts = products.map(product => {
+            return { id: product.id, quantity: product.ordered_quantity };
+        });
         const actualProducts = products.map(product => {
             product.quantity = product.quantity - product.ordered_quantity;
             delete product.ordered_quantity;
             return { ...product };
         });
-
-        products = products.map(product => {
-            return { id: product.id, quantity: product.ordered_quantity };
-        });
+        products = databaseProducts;
 
         const order = await this.orders.create({
             products,
