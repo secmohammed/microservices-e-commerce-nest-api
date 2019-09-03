@@ -47,6 +47,7 @@ export interface AuthToken {
 
 export interface IMutation {
     createOrder(products: ProductInput[]): Order | Promise<Order>;
+    deleteOrder(order: string): Order | Promise<Order>;
     createProduct(data: CreateProduct): Product | Promise<Product>;
     updateProduct(data: CreateProduct, id: string): Product | Promise<Product>;
     deleteProduct(id: string): Product | Promise<Product>;

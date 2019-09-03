@@ -59,4 +59,13 @@ export class ProductService {
             );
         });
     }
+    async incrementProductsStock(products) {
+        products.forEach(product => {
+            this.products.increment(
+                { id: product.id },
+                "quantity",
+                product.quantity
+            );
+        });
+    }
 }

@@ -39,4 +39,13 @@ export class OrderService {
         order.products = actualProducts;
         return order;
     }
+    async destroy({ id, user_id }) {
+        // find the order.
+        const order = await this.orders.findOneOrFail({
+            where: { id, user_id }
+        });
+        await this.orders.delete({ id, user_id });
+        // return the order to fire an event increasing the stock of related products to this order at the gateway.
+        return order;
+    }
 }

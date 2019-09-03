@@ -17,9 +17,23 @@ export class OrderService {
   indexOrdersByUser(user_id: string): Promise<OrderDTO[]> {
     return new Promise((resolve, reject) => {
       this.client.send("index-orders", user_id).subscribe(orders => {
-        // prepare the product, user, user address
         return resolve(orders);
       });
+    });
+  }
+  async destroyUserOrder(order_id: any, user_id): Promise<OrderDTO> {
+    return new Promise((resolve, reject) => {
+      this.client
+        .send("destroy-order-by-id", {
+          id: order_id,
+          user_id
+        })
+        .subscribe(async order => {
+          // fire an event that order is deleted to increase the product's quantity.
+          this.client
+            .emit("order_deleted", order.products)
+            .subscribe(() => resolve(order));
+        });
     });
   }
   store(products: any, user_id): Promise<ProductDTO> {
