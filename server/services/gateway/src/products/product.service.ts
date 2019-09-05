@@ -17,7 +17,7 @@ export class ProductService {
   async show(id: string): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
       this.client
-        .send<ProductDTO>("show_product", id)
+        .send<ProductDTO>("show-product", id)
         .subscribe(product => resolve(product), error => reject(error));
     });
   }
@@ -49,7 +49,7 @@ export class ProductService {
     // TODO: handle the failure create produc
     return new Promise((resolve, reject) => {
       this.client
-        .send<ProductDTO>("create_product", {
+        .send<ProductDTO>("create-product", {
           ...data,
           user_id: id
         })
@@ -69,7 +69,7 @@ export class ProductService {
   ): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
       this.client
-        .send<ProductDTO>("update_product", {
+        .send<ProductDTO>("update-product", {
           ...data,
           id: productId,
           user_id: id
@@ -91,7 +91,7 @@ export class ProductService {
   destroy(productId: string, id: string) {
     return new Promise((resolve, reject) => {
       this.client
-        .send<ProductDTO>("delete_product", {
+        .send<ProductDTO>("delete-product", {
           id: productId,
           user_id: id
         })
