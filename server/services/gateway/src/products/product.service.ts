@@ -29,31 +29,13 @@ export class ProductService {
         if (!products) {
           this.client.send<ProductDTO[]>("products", []).subscribe(
             products => {
-              // get users by ids in products.
-              const userIds = products.map(product => product.user_id);
-              this.client
-                .send<UserDTO[]>("fetch-users-by-ids", userIds)
-                .subscribe(
-                  users => {
-                    // map users to their products.
-                    const mappedProducts = products.map(product => {
-                      product = {
-                        ...product,
-                        user: users.find(user => user.id === product.user_id)
-                      };
-                      delete product.user_id;
-                      return product;
-                    });
-                    redis.set(
-                      redisProductsKey,
-                      JSON.stringify(mappedProducts),
-                      "EX",
-                      60 * 60 * 30 // 30 mins until expiration
-                    );
-                    resolve(mappedProducts);
-                  },
-                  error => reject(error)
-                );
+              redis.set(
+                redisProductsKey,
+                JSON.stringify(products),
+                "EX",
+                60 * 60 * 30 // 30 mins until expiration
+              );
+              return resolve(products);
             },
             error => reject(error)
           );
@@ -100,6 +82,11 @@ export class ProductService {
           error => reject(error)
         );
     });
+  }
+  async fetchProductsByIds(ids: string[]) {
+    return this.client
+      .send<ProductDTO, string[]>("fetch-products-by-ids", ids)
+      .toPromise();
   }
   destroy(productId: string, id: string) {
     return new Promise((resolve, reject) => {

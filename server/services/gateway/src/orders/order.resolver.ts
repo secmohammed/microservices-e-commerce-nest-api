@@ -13,8 +13,10 @@ import { config, ProductDTO, OrderDTO, UserDTO } from "@commerce/shared";
 
 import { AuthGuard } from "../middlewares/auth.guard";
 import { CreateOrder } from "./create-order.validation";
+import { OrderProductDataLoader } from "../loaders/order-product.loader";
 import { OrderService } from "./order.service";
 import { UUID } from "../shared/validation/uuid.validation";
+import { UserDataLoader } from "../loaders/user.loader";
 
 @Resolver("Order")
 export class OrderResolver {
@@ -26,49 +28,18 @@ export class OrderResolver {
     })
     private client: ClientProxy;
 
-    constructor(private readonly orderService: OrderService) {}
-    @ResolveProperty("user")
-    async user(@Parent() order): Promise<UserDTO> {
-        const user = await this.client
-            .send("fetch-user-by-id", order.user_id)
-            .toPromise();
-        return user;
+    constructor(
+        private readonly orderService: OrderService,
+        private readonly usersDataLoader: UserDataLoader,
+        private readonly orderProductLoader: OrderProductDataLoader
+    ) {}
+    @ResolveProperty("user", () => UserDTO)
+    async user(@Parent() order: OrderDTO): Promise<UserDTO> {
+        return this.usersDataLoader.load(order.user_id);
     }
-    @ResolveProperty()
-    products(@Parent() order): Promise<ProductDTO[]> {
-        return new Promise((resolve, reject) => {
-            this.client
-                .send(
-                    "fetch-products-by-ids",
-                    order.products.map(product => product.id)
-                )
-                .subscribe(products => {
-                    this.client
-                        .send(
-                            "fetch-users-by-ids",
-                            products.map(product => product.user_id)
-                        )
-                        .subscribe(users => {
-                            console.log(users, products, order);
-                            products = products.map(product => {
-                                product = {
-                                    ...product,
-                                    user: users.find(
-                                        user => user.id === product.user_id
-                                    )
-                                };
-                                delete product.user_id;
-                                return {
-                                    product,
-                                    quantity_ordered: order.products.find(
-                                        p => p.id == product.id
-                                    ).quantity
-                                };
-                            });
-                            return resolve(products);
-                        });
-                });
-        });
+    @ResolveProperty("products", () => ProductDTO)
+    async products(@Parent() order): Promise<ProductDTO> {
+        return this.orderProductLoader.loadMany(order.products);
     }
     @Query()
     @UseGuards(new AuthGuard())
@@ -108,7 +79,11 @@ export class OrderResolver {
                             );
                         }
                         return resolve(
-                            await this.orderService.store(products, user.id)
+                            await this.orderService.store(
+                                products,
+                                user.id,
+                                fetchedProducts
+                            )
                         );
                     },
                     error => reject(error)
