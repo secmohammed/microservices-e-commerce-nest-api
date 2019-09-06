@@ -13,12 +13,12 @@ export class ProductController {
         return this.products.get(data);
     }
 
-    @MessagePattern("create_product")
+    @MessagePattern("create-product")
     store(data: any): Promise<ProductEntity> {
         return this.products.store(data);
     }
 
-    @MessagePattern("update_product")
+    @MessagePattern("update-product")
     update({
         id,
         title,
@@ -34,7 +34,7 @@ export class ProductController {
         );
     }
 
-    @MessagePattern("show_product")
+    @MessagePattern("show-product")
     show(id: string): Promise<ProductEntity> {
         return this.products.show(id);
     }
@@ -55,7 +55,7 @@ export class ProductController {
         this.products.decrementProductsStock(products);
     }
 
-    @MessagePattern("delete_product")
+    @MessagePattern("delete-product")
     destroy({ id, user_id }: { id: string; user_id: string }) {
         return this.products.destroy(id, user_id);
     }

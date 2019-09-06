@@ -1,20 +1,22 @@
-import { ProductDTO } from "@commerce/shared";
+import { Client, ClientProxy, Transport } from "@nestjs/microservices";
+import { ProductDTO, UserDTO, config } from "@commerce/shared";
 import {
     Query,
     Resolver,
     Context,
     Mutation,
     Args,
-    Parent,
-    ResolveProperty
+    ResolveProperty,
+    Parent
 } from "@nestjs/graphql";
 import { UseGuards } from "@nestjs/common";
-import { CreateProduct } from "./create-product.validation";
+
 import { AuthGuard } from "../middlewares/auth.guard";
+import { CreateProduct } from "./create-product.validation";
 import { ProductService } from "./product.service";
 import { SellerGuard } from "../middlewares/seller.guard";
-import { Client, ClientProxy, Transport } from "@nestjs/microservices";
-import { config, UserDTO } from "@commerce/shared";
+import { UserDataLoader } from "../loaders/user.loader";
+
 @Resolver("Product")
 export class ProductResolver {
     @Client({
@@ -25,16 +27,13 @@ export class ProductResolver {
     })
     private client: ClientProxy;
 
-    constructor(private readonly productService: ProductService) {}
-    @ResolveProperty("user")
-    async user(@Parent() product): Promise<UserDTO> {
-        if (product.user) {
-            return product.user;
-        }
-        const user = await this.client
-            .send("fetch-user-by-id", product.user_id)
-            .toPromise();
-        return user;
+    constructor(
+        private readonly productService: ProductService,
+        private readonly usersDataLoader: UserDataLoader
+    ) {}
+    @ResolveProperty("user", () => UserDTO)
+    async user(@Parent() product: ProductDTO): Promise<UserDTO> {
+        return this.usersDataLoader.load(product.user_id);
     }
     @Query()
     products(): Promise<ProductDTO[]> {

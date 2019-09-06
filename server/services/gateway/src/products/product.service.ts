@@ -17,7 +17,7 @@ export class ProductService {
   async show(id: string): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
       this.client
-        .send<ProductDTO>("show_product", id)
+        .send<ProductDTO>("show-product", id)
         .subscribe(product => resolve(product), error => reject(error));
     });
   }
@@ -29,31 +29,13 @@ export class ProductService {
         if (!products) {
           this.client.send<ProductDTO[]>("products", []).subscribe(
             products => {
-              // get users by ids in products.
-              const userIds = products.map(product => product.user_id);
-              this.client
-                .send<UserDTO[]>("fetch-users-by-ids", userIds)
-                .subscribe(
-                  users => {
-                    // map users to their products.
-                    const mappedProducts = products.map(product => {
-                      product = {
-                        ...product,
-                        user: users.find(user => user.id === product.user_id)
-                      };
-                      delete product.user_id;
-                      return product;
-                    });
-                    redis.set(
-                      redisProductsKey,
-                      JSON.stringify(mappedProducts),
-                      "EX",
-                      60 * 60 * 30 // 30 mins until expiration
-                    );
-                    resolve(mappedProducts);
-                  },
-                  error => reject(error)
-                );
+              redis.set(
+                redisProductsKey,
+                JSON.stringify(products),
+                "EX",
+                60 * 60 * 30 // 30 mins until expiration
+              );
+              return resolve(products);
             },
             error => reject(error)
           );
@@ -67,7 +49,7 @@ export class ProductService {
     // TODO: handle the failure create produc
     return new Promise((resolve, reject) => {
       this.client
-        .send<ProductDTO>("create_product", {
+        .send<ProductDTO>("create-product", {
           ...data,
           user_id: id
         })
@@ -87,7 +69,7 @@ export class ProductService {
   ): Promise<ProductDTO> {
     return new Promise((resolve, reject) => {
       this.client
-        .send<ProductDTO>("update_product", {
+        .send<ProductDTO>("update-product", {
           ...data,
           id: productId,
           user_id: id
@@ -101,10 +83,15 @@ export class ProductService {
         );
     });
   }
+  async fetchProductsByIds(ids: string[]) {
+    return this.client
+      .send<ProductDTO, string[]>("fetch-products-by-ids", ids)
+      .toPromise();
+  }
   destroy(productId: string, id: string) {
     return new Promise((resolve, reject) => {
       this.client
-        .send<ProductDTO>("delete_product", {
+        .send<ProductDTO>("delete-product", {
           id: productId,
           user_id: id
         })
