@@ -13,6 +13,14 @@ export class OrderService {
     async get(user_id: string): Promise<Order[]> {
         return this.orders.find({ user_id });
     }
+    async markOrderStatus(id, status) {
+        return this.orders.update(id, {
+            status
+        });
+    }
+    async findByIdAndUserId(id, user_id) {
+        return this.orders.findOneOrFail({ id, user_id });
+    }
     async create({ products, user_id }): Promise<Order> {
         const INITIAL_VALUE = 0;
         const total_price = products.reduce(

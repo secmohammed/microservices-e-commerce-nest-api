@@ -6,7 +6,7 @@
         "port": 5432,
         "username": "mohammed",
         "password": "root",
-        "database": "products-module",
+        "database": "payments-module",
         "synchronize": true,
         "logging": true,
         "entities": ["dist/**/*.entity.js"]

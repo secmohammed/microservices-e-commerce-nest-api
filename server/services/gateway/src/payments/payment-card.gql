@@ -1,0 +1,26 @@
+scalar DateTime
+type PaymentCard {
+    id: String!
+    user: User!
+    last_four: String!
+    brand: String!
+    default: Boolean!
+    provider_id: String!
+    created_at: DateTime!
+}
+input CreatePaymentCard {
+    token_id: String!
+    last_four: String!
+    provider_id: String!
+    brand: String!
+    default: Boolean!
+}
+type Query {
+    showPaymentCard(id: String!): PaymentCard
+    indexUserPaymentCards: [PaymentCard!]
+}
+type Mutation {
+    createPaymentCard(data: CreatePaymentCard!): PaymentCard!
+    createChargeForUser(orderId: String!): Order!
+    deletePaymentCard(id: String!): PaymentCard!
+}

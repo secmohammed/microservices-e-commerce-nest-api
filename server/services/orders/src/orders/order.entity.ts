@@ -23,7 +23,11 @@ export class OrderEntity extends BaseEntity {
         id: string;
         quantity: number;
     };
-
+    @Column({
+        enum: ["pending", "failed", "succeeded"],
+        default: "pending"
+    })
+    status: string;
     @CreateDateColumn()
     created_at: Date;
     @UpdateDateColumn()

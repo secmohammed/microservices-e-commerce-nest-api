@@ -25,6 +25,8 @@ export class UserEntity extends BaseEntity {
     email: string;
     @Column("text")
     password: string;
+    @Column("text", { nullable: true })
+    gateway_customer_id: string;
 
     @CreateDateColumn()
     created_at: Date;
@@ -52,7 +54,8 @@ export class UserEntity extends BaseEntity {
             token,
             updated_at,
             seller,
-            address
+            address,
+            gateway_customer_id
         } = this;
         let responseObject: any = {
             id,
@@ -60,7 +63,8 @@ export class UserEntity extends BaseEntity {
             email,
             created_at,
             updated_at,
-            seller
+            seller,
+            gateway_customer_id
         };
         if (address) {
             responseObject.address = address;

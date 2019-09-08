@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common";
 import { LoginUser, RegisterUser } from "@commerce/shared";
-import { MessagePattern } from "@nestjs/microservices";
+import { MessagePattern, EventPattern } from "@nestjs/microservices";
 import { ObjectID } from "typeorm";
 import { UserService } from "./user.service";
 
@@ -30,5 +30,9 @@ export class UserController {
     @MessagePattern("fetch-users-by-ids")
     fetchUsersByIds(ids: Array<String>) {
         return this.users.fetchUsersByIds(ids);
+    }
+    @EventPattern("customer_created")
+    handleCreatedCustomer({ user_id, gateway_customer_id }) {
+        return this.users.updateToCustomer(user_id, gateway_customer_id);
     }
 }

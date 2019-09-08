@@ -1,2 +1,3 @@
 import * as Stripe from "stripe";
-export const stripe = new Stripe("sk_test_J29GVsb1mCVACXR6LIz1wrW7");
+import { config } from "@commerce/shared";
+export const stripe = new Stripe(config.STRIPE_SECRET_KEY);

@@ -5,6 +5,14 @@
  */
 
 /* tslint:disable */
+export interface CreatePaymentCard {
+    token_id: string;
+    last_four: string;
+    provider_id: string;
+    brand: string;
+    default: boolean;
+}
+
 export interface CreateProduct {
     title: string;
     description: string;
@@ -52,6 +60,9 @@ export interface AuthToken {
 export interface IMutation {
     createOrder(products: ProductInput[]): Order | Promise<Order>;
     deleteOrder(order: UUID): Order | Promise<Order>;
+    createPaymentCard(data: CreatePaymentCard): PaymentCard | Promise<PaymentCard>;
+    createChargeForUser(orderId: string): Order | Promise<Order>;
+    deletePaymentCard(id: string): PaymentCard | Promise<PaymentCard>;
     createProduct(data: CreateProduct): Product | Promise<Product>;
     updateProduct(data: CreateProduct, id: string): Product | Promise<Product>;
     deleteProduct(id: string): Product | Promise<Product>;
@@ -64,6 +75,16 @@ export interface Order {
     user: User;
     total_price: number;
     products: ProductWithQuantity[];
+}
+
+export interface PaymentCard {
+    id: string;
+    user: User;
+    last_four: string;
+    brand: string;
+    default: boolean;
+    provider_id: string;
+    created_at: DateTime;
 }
 
 export interface Product {
@@ -84,6 +105,8 @@ export interface ProductWithQuantity {
 export interface IQuery {
     orders(): Order[] | Promise<Order[]>;
     showOrder(id: string): Order | Promise<Order>;
+    showPaymentCard(id: string): PaymentCard | Promise<PaymentCard>;
+    indexUserPaymentCards(): PaymentCard[] | Promise<PaymentCard[]>;
     products(): Product[] | Promise<Product[]>;
     showProduct(id: string): Product | Promise<Product>;
     users(): User[] | Promise<User[]>;

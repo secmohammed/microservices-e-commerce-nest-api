@@ -12,19 +12,16 @@ export class PaymentEntity extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column("integer")
-    price: number;
     @PrimaryGeneratedColumn("uuid")
     user_id: string;
-    @Column("integer", { default: 1 })
-    quantity: number;
+    @Column("text", { nullable: true })
+    brand: string;
+    @Column("text", { nullable: true })
+    last_four: string;
+    @Column("boolean", { default: true })
+    default: boolean;
     @Column("text", { unique: true })
-    title: string;
-    @Column("text")
-    description: string;
-
-    @Column("text")
-    image: string;
+    provider_id: string;
 
     @CreateDateColumn()
     created_at: Date;

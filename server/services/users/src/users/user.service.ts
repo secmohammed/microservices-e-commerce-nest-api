@@ -12,6 +12,11 @@ export class UserService {
         @InjectRepository(User)
         private readonly users: Repository<User>
     ) {}
+    updateToCustomer(id, gateway_customer_id) {
+        return this.users.update(id, {
+            gateway_customer_id
+        });
+    }
     findById(id: string) {
         return this.users.findOneOrFail(id);
     }
