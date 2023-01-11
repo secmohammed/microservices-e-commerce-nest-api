@@ -18,7 +18,7 @@
         "typescript": "^3.5.3"
     },
     "dependencies": {
-        "class-validator": "^0.10.0",
+        "class-validator": "^0.14.0",
         "dotenv": "^8.1.0",
         "type-graphql": "^0.17.6",
         "typeorm": "^0.2.25"
