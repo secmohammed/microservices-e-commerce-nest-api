@@ -22,7 +22,7 @@
   "dependencies": {
     "@commerce/shared": "1.0.0",
     "@nestjs/common": "^6.0.0",
-    "@nestjs/core": "^6.0.0",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/microservices": "^6.5.3",
     "@nestjs/platform-express": "^6.0.0",
     "@nestjs/typeorm": "^6.1.3",
